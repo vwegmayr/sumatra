@@ -114,7 +114,9 @@ class ArchivingFileSystemDataStore(FileSystemDataStore):
 
     def delete(self, *keys):
         """Delete the files corresponding to the given keys."""
-        raise NotImplementedError("Deletion of individual files not supported.")
-
+        remove_name = os.path.dirname(keys[0].path)+".tar.gz"
+        remove_path = os.path.join(self.archive_store,remove_name)
+        os.remove(remove_path)
+        
     def contains_path(self, path):
         raise NotImplementedError
