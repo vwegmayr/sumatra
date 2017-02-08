@@ -20,6 +20,8 @@ from ..core import component
 from .base import DataItem
 from .filesystem import FileSystemDataStore
 
+import datetime
+
 
 class MirroredDataFile(DataItem):
     """
