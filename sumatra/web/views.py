@@ -310,7 +310,7 @@ def delete_records(request, project):
 
 
 def show_content(request, datastore_id):
-    datastore = Datastore.objects.get(pk=datastore_id).to_sumatra()
+    datastore = Datastore.objects.get(pk=1).to_sumatra() #1 instead of datastore_id
     attrs = dict(path=request.GET['path'],
                  digest=request.GET['digest'],
                  creation=datestring_to_datetime(request.GET['creation']))
