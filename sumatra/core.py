@@ -23,7 +23,7 @@ from urllib.error import URLError
 import warnings
 
 
-TIMESTAMP_FORMAT = "%Y %m-%d %H:%M:%S"
+TIMESTAMP_FORMAT = "%Y%m%d-%H%M%S"
 
 
 def have_internet_connection():
