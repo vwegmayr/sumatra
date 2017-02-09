@@ -14,7 +14,7 @@ import platform
 import socket
 from datetime import datetime
 
-TIMESTAMP_FORMAT = "%Y %m-%d %H:%M:%S"
+TIMESTAMP_FORMAT = "%Y %m %d %H:%M:%S"
 
 MPI_ROOT = 0
 comm = MPI.Comm.Get_parent()
