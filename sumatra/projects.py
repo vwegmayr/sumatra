@@ -281,12 +281,12 @@ class Project(object):
         self.record_store.delete(self.name, label)
         self._most_recent = self.record_store.most_recent(self.name)
 
-    def delete_by_tag(self, tag, delete_data=False):
-        """Delete all records with a given tag. Return the number of records deleted."""
+    def delete_by_tag(self, tags, delete_data=False):
+        """Delete all records with given tags. Return the number of records deleted."""
         if delete_data:
-            for record in self.record_store.list(self.name, tag):
+            for record in self.record_store.list(self.name, tags):
                 record.delete_data()
-        n = self.record_store.delete_by_tag(self.name, tag)
+        n = self.record_store.delete_by_tag(self.name, tags)
         self._most_recent = self.record_store.most_recent(self.name)
         return n
 
