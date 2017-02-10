@@ -206,12 +206,20 @@ class HttpRecordStore(RecordStore):
         if response.status != 204:
             raise RecordStoreAccessError("%d\n%s" % (response.status, deleted_content))
 
-    def delete_by_tag(self, project_name, tag):
-        url = "%s%s/tag/%s/" % (self.server_url, project_name, tag)
-        response, n_records = self.client.request(url, 'DELETE')
-        if response.status != 200:
-            raise RecordStoreAccessError("%d\n%s" % (response.status, n_records))
-        return int(n_records)
+    def delete_by_tag(self, project_name, tags):
+        #url = "%s%s/tag/%s/" % (self.server_url, project_name, tag)
+        #response, n_records = self.client.request(url, 'DELETE')
+        #if response.status != 200:
+        #    raise RecordStoreAccessError("%d\n%s" % (response.status, n_records))
+        #return int(n_records)
+        deleted = 0
+        for label in self.labels(project_name,tags):
+            try:
+                self.delete(project_name,label)
+                deleted+=1
+            except Exception:
+                warnings.warn("Could not delete record '%s' by tag." % label) 
+        return deleted
 
     def most_recent(self, project_name):
         #url = "%s%s/last/" % (self.server_url, project_name)
