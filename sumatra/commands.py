@@ -353,7 +353,7 @@ def run(argv):
     parser.add_argument('-m', '--main', help="the name of the script that would be supplied on the command line if running the simulation/analysis normally, e.g. init.hoc. If not specified, the project's default will be used.")
     parser.add_argument('-n', '--num_processes', metavar='N', type=int,
                         help="run a distributed computation on N processes using MPI. If this option is not used, or if N=0, a normal, serial simulation/analysis is run.")
-    parser.add_argument('-t', '--tag', help="tag you want to add to the project")
+    parser.add_argument('-t', '--tags', nargs="*", help="tags you want to add to the project")
     parser.add_argument('-D', '--debug', action='store_true', help="print debugging information.")
     parser.add_argument('-i', '--stdin', help="specify the name of a file that should be connected to standard input.")
     parser.add_argument('-o', '--stdout', help="specify the name of a file that should be connected to standard output.")
@@ -405,7 +405,8 @@ def run(argv):
         print(err)
         sys.exit(1)
     if args.tag:
-        project.add_tag(run_label, args.tag)
+        for tag in args.tag:
+            project.add_tag(run_label, tag)
     if os.path.exists('.smt'):
         with open('.smt/labels', 'w') as f:
             f.write('\n'.join(project.get_labels()))
