@@ -420,6 +420,9 @@ def run(argv):
     except (UncommittedModificationsError, MissingInformationError) as err:
         print(err)
         sys.exit(1)
+
+    project.add_default_tags(run_label)
+
     if args.tags:
         for tag in args.tags:
             project.add_tag(run_label, tag)
