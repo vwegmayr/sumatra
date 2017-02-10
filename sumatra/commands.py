@@ -458,18 +458,19 @@ def delete(argv):
     parser = ArgumentParser(usage=usage,
                             description=description)
     parser.add_argument('labels', metavar='LIST', nargs="+", help="a space-separated list of labels for individual records or of tags")
-    parser.add_argument('-t', '--tag', action='store_true',
-                        help="interpret LIST as containing tags. Records with any of these tags will be deleted.")
+    parser.add_argument('-t', '--tags', action='store_true',
+                        help=("interpret LIST as containing tags. Records that contain exactly these tags will be deleted."
+                        "Note that records that contain tags in addition to the specified ones are also deleted."))
     parser.add_argument('-d', '--data', action='store_true',
                         help="also delete any data associated with the record(s).")
     args = parser.parse_args(argv)
 
     project = load_project()
 
-    if args.tag:
-        for tag in args.labels:
-            n = project.delete_by_tag(tag, delete_data=args.data)
-            print("%s records deleted." % n)
+    if args.tags:
+        #for tag in args.labels:
+        n = project.delete_by_tag(tags, delete_data=args.data)
+        print("%s records deleted." % n)
     else:
         for label in args.labels:
             if label == 'last':
