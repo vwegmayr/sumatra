@@ -79,7 +79,7 @@ class Project(object):
                  on_changed='error', description='', data_label=None,
                  input_datastore=None, label_generator='timestamp',
                  timestamp_format=TIMESTAMP_FORMAT,
-                 allow_command_line_parameters=True, plugins=[]):
+                 allow_command_line_parameters=True, plugins=[],default_tags=[]):
         self.path = os.getcwd()
         if not os.path.exists(".smt"):
             os.mkdir(".smt")
@@ -110,6 +110,7 @@ class Project(object):
         self._most_recent = None
         self.plugins = []
         self.load_plugins(*plugins)
+        self.default_tags = default_tags
         self.save()
         print("Sumatra project successfully set up")
 
