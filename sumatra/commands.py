@@ -395,6 +395,11 @@ def run(argv):
         reason = reason.strip('\'"')
 
     label = args.label
+    
+    if label in project.get_labels():
+        print("Label already exists, choose a new one.")
+        sys.exit(1)
+         
     try:
         run_label = project.launch(parameters, input_data, script_args,
                                    label=label, reason=reason,
