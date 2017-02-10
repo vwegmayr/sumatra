@@ -404,8 +404,8 @@ def run(argv):
     except (UncommittedModificationsError, MissingInformationError) as err:
         print(err)
         sys.exit(1)
-    if args.tag:
-        for tag in args.tag:
+    if args.tags:
+        for tag in args.tags:
             project.add_tag(run_label, tag)
     if os.path.exists('.smt'):
         with open('.smt/labels', 'w') as f:
