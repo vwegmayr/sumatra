@@ -116,7 +116,10 @@ class ArchivingFileSystemDataStore(FileSystemDataStore):
         """Delete the files corresponding to the given keys."""
         remove_name = os.path.dirname(keys[0].path)+".tar.gz"
         remove_path = os.path.join(self.archive_store,remove_name)
-        os.remove(remove_path)
+        try:
+            os.remove(remove_path)
+        except Exception:
+            print("Could not delete data for record {}. You can only delete data that you generated.".format(keys[0].creation))
         
     def contains_path(self, path):
         raise NotImplementedError
