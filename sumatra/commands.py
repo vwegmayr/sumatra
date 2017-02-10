@@ -469,7 +469,7 @@ def delete(argv):
 
     if args.tags:
         #for tag in args.labels:
-        n = project.delete_by_tag(args.tags, delete_data=args.data)
+        n = project.delete_by_tag(args.labels, delete_data=args.data)
         print("%s records deleted." % n)
     else:
         for label in args.labels:
