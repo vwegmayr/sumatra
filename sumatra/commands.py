@@ -138,6 +138,7 @@ def init(argv):
     parser.add_argument('-t', '--timestamp_format', help="the timestamp format given to strftime", default=TIMESTAMP_FORMAT)
     parser.add_argument('-L', '--launch_mode', choices=['serial', 'distributed', 'slurm-mpi'], default='serial', help="how computations should be launched. Defaults to %(default)s")
     parser.add_argument('-o', '--launch_mode_options', help="extra options for the given launch mode")
+    parser.add_argument('-T', '--tags', nargs="*", help="Default tags which are added to each record.",default=[])
 
     datastore = parser.add_mutually_exclusive_group()
     datastore.add_argument('-W', '--webdav', metavar='URL', help="specify a webdav URL (with username@password: if needed) as the archiving location for data")
@@ -208,7 +209,8 @@ def init(argv):
                       data_label=args.addlabel,
                       input_datastore=input_datastore,
                       label_generator=args.labelgenerator,
-                      timestamp_format=args.timestamp_format)
+                      timestamp_format=args.timestamp_format,
+                      default_tags=args.tags)
     if os.path.exists('.smt') and project.record_store.has_project(project.name):
         with open('.smt/labels', 'w') as f:
             f.write('\n'.join(project.get_labels()))
@@ -236,6 +238,9 @@ def configure(argv):
     parser.add_argument('-p', '--plain', dest='plain', action='store_true', help="pass arguments to the 'run' command straight through to the program. Otherwise arguments of the form name=value can be used to overwrite default parameter values.")
     parser.add_argument('--no-plain', dest='plain', action='store_false', help="arguments to the 'run' command of the form name=value will overwrite default parameter values. This is the opposite of the --plain option.")
     parser.add_argument('-s', '--store', help="Change the record store to the specified path, URL or URI (must be specified). {0}".format(store_arg_help))
+    parser.add_argument('-T', '--tags', nargs="*", help="Add default tags, if used with -rm, tags are removed from default list instead. ", default="")
+    parser.add_argument('-rm', '--remove_tags', action='store_true',
+                        help="remove the tag from default tags, rather than adding it.")
 
     datastore = parser.add_mutually_exclusive_group()
     datastore.add_argument('-W', '--webdav', metavar='URL', help="specify a webdav URL (with username@password: if needed) as the archiving location for data")
@@ -309,6 +314,12 @@ def configure(argv):
         project.load_plugins(args.add_plugin)
     if args.remove_plugin:
         project.remove_plugins(args.remove_plugin)
+    if args.remove_tags:
+        oldtags = project.default_tags
+        project.default_tags = [v for i, v in enumerate(oldtags) if v not in args.tags]
+    else:
+        project.default_tags += args.tags
+
     project.save()
 
 

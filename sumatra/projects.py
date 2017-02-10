@@ -129,7 +129,7 @@ class Project(object):
                      'default_main_file', 'on_changed', 'description',
                      'data_label', '_most_recent', 'input_datastore',
                      'label_generator', 'timestamp_format', 'sumatra_version',
-                     'allow_command_line_parameters', 'plugins'):
+                     'allow_command_line_parameters', 'plugins',"default_tags"):
             try:
                 attr = getattr(self, name)
             except:
@@ -173,6 +173,7 @@ class Project(object):
         Label generator     : %(label_generator)s
         Timestamp format    : %(timestamp_format)s
         Plug-ins            : %(plugins)s
+        Default tags        : %(default_tags)s
         Sumatra version     : %(sumatra_version)s
         """
         return _remove_left_margin(template % self.__dict__)
@@ -333,6 +334,12 @@ class Project(object):
     def add_tag(self, label, tag):
         record = self.record_store.get(self.name, label)
         record.tags.add(tag)
+        self.record_store.save(self.name, record)
+
+    def add_default_tags(self,label):
+        record = self.record_store.get(self.name, label)
+        for tag in self.default_tags:
+            record.tags.add(tag)
         self.record_store.save(self.name, record)
 
     def remove_tag(self, label, tag):
