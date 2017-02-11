@@ -22,7 +22,6 @@ with warnings.catch_warnings():
     warnings.simplefilter("ignore")
     import tagging.fields
     from tagging.models import Tag
-from tagging.registry import register
 
 
 class SumatraObjectsManager(models.Manager):
@@ -311,5 +310,3 @@ class Record(BaseModel):
 
     def working_directory(self):
         return self.launch_mode.get_parameters().get('working_directory', None)
-
-register(Record)
