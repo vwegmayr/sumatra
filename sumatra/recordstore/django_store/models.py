@@ -22,6 +22,7 @@ with warnings.catch_warnings():
     warnings.simplefilter("ignore")
     import tagging.fields
     from tagging.models import Tag
+    from tagging.registry import register
 
 
 class SumatraObjectsManager(models.Manager):
@@ -256,7 +257,7 @@ class Record(BaseModel):
     input_datastore = models.ForeignKey(Datastore, related_name="input_to_records")
     outcome = models.TextField(blank=True)
     timestamp = models.DateTimeField()
-    tags = tagging.fields.TagField()
+    Tags = tagging.fields.TagField()
     dependencies = models.ManyToManyField(Dependency)
     platforms = models.ManyToManyField(PlatformInformation)
     diff = models.TextField(blank=True)
@@ -267,7 +268,7 @@ class Record(BaseModel):
     repeats = models.CharField(max_length=100, null=True, blank=True)
 
     # parameters which will be used in the fulltext search (see sumatra.web.services fulltext_search)
-    params_search = ('label', 'reason', 'duration', 'main_file', 'outcome', 'user', 'tags')
+    params_search = ('label', 'reason', 'duration', 'main_file', 'outcome', 'user', 'Tags')
 
     class Meta(object):
         ordering = ('-timestamp',)
@@ -310,3 +311,5 @@ class Record(BaseModel):
 
     def working_directory(self):
         return self.launch_mode.get_parameters().get('working_directory', None)
+
+register(Record)

@@ -77,7 +77,7 @@ class RecordListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(RecordListView, self).get_context_data(**kwargs)
         context['project'] = Project.objects.get(pk=self.kwargs["project"])
-        context['tags'] = Tag.objects.all()  # would be better to filter, to return only tags used in this project.
+        context['tags'] = Record.tags.usage()  # would be better to filter, to return only tags used in this project.
         context['read_only'] = django_settings.READ_ONLY
         return context
 
@@ -225,7 +225,7 @@ class ImageListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(ImageListView, self).get_context_data(**kwargs)
         context['project'] = Project.objects.get(pk=self.kwargs["project"])
-        context['tags'] = Tag.objects.all()  # would be better to filter, to return only tags used in this project.
+        context['tags'] = Record.tags.usage()  # would be better to filter, to return only tags used in this project.
         return context
 
 
@@ -263,7 +263,7 @@ def image_thumbgrid(request, project):
         else:
             return HttpResponse(json.dumps(data), content_type='application/json')
     else:
-        tags = Tag.objects.all()
+        tags = Record.tags.usage()
         return render_to_response('image_thumbgrid.html', {'project':project_obj, 'tags':tags})
 
 
