@@ -78,8 +78,13 @@ class RecordListView(ListView):
         context = super(RecordListView, self).get_context_data(**kwargs)
         context['project'] = Project.objects.get(pk=self.kwargs["project"])
         context['tags'] = Tag.objects.all()  # would be better to filter, to return only tags used in this project.
+
+        x = Record
+        y = Record.tags
+        z = Record.tags.all()
+
         print("All tags: {}".format(Tag.objects.all()))
-        print("All tags from Record: {}".format(Record.tags.all()))
+        print("All tags from Record: {}".format(Record.tags))
 
         context['read_only'] = django_settings.READ_ONLY
         return context
