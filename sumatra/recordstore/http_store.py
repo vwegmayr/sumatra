@@ -32,7 +32,6 @@ from sumatra.recordstore.base import RecordStore, RecordStoreAccessError
 from sumatra.recordstore import serialization
 from ..core import conditional_component
 
-
 API_VERSION = 4
 
 
@@ -218,7 +217,7 @@ class HttpRecordStore(RecordStore):
                 self.delete(project_name,label)
                 deleted+=1
             except Exception:
-                warnings.warn("Could not delete record '%s' by tag." % label) 
+                warnings.warn("Could not delete record '%s' by tag." % label)
         return deleted
 
     def most_recent(self, project_name):
