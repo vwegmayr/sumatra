@@ -73,6 +73,8 @@ def main(argv):
         MIDDLEWARE_CLASSES=tuple(),
         READ_ONLY = options.read_only,
         SERVERSIDE = options.serverside,
+        DEBUG = False,
+        TEMPLATE_DEBUG = False
     )
 
     db_config.configure()
