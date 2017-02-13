@@ -172,7 +172,8 @@ class Record(object):
         self.output_data = self.datastore.find_new_data(self.timestamp)
         print("Record label for this run: '%s'" % self.label)
         if self.output_data:
-            print("Data keys are %s" % self.output_data)
+            #print("Data keys are %s" % self.output_data)
+            print("{} data keys generated.".format(len(self.output_data)))
         else:
             print("No data produced.")
         if self.parameters and exists(self.parameter_file):
