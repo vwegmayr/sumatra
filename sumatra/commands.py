@@ -29,6 +29,7 @@ from sumatra.versioncontrol import get_working_copy, get_repository, Uncommitted
 from sumatra.formatting import get_diff_formatter
 from sumatra.records import MissingInformationError
 from sumatra.core import TIMESTAMP_FORMAT
+from sumatra.recordstore.base import RecordStoreAccessError
 
 logger = logging.getLogger("Sumatra")
 logger.setLevel(logging.CRITICAL)
@@ -407,9 +408,12 @@ def run(argv):
 
     label = args.label
     
-    if label in project.get_labels():
-        print("Label already exists, choose a new one.")
-        sys.exit(1)
+    try:
+        if label in project.get_labels():
+            print("Label already exists, choose a new one.")
+            sys.exit(1)
+    except RecordStoreAccessError as err:
+        pass
          
     try:
         run_label = project.launch(parameters, input_data, script_args,
