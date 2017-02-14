@@ -20,8 +20,8 @@
                         {% for tag in tags %}
                         <li id="id_tag_{{tag.name}}"><a data-target="#" value="{{tag.name}}" class="tag">{{tag.name}}</a></li>
                         {% endfor %}
-                        <li role="presentation" class="divider"></li>
-                        <li><a data-target="#" value="null" class="tag"><i>clear selection</i></a></li>
+                        <!--<li role="presentation" class="divider"></li>
+                        <li><a data-target="#" value="null" class="tag"><i>clear selection</i></a></li>-->
                     {% else %}
                     <li role="presentation" class="dropdown-header">No tags defined.</li>
                     {% endif %}
@@ -193,9 +193,10 @@
 <script type="text/javascript">
 
 /* filter by tag */
-var selected_tag = null;
-
-$.fn.dataTable.ext.search.push(
+//var selected_tag = null;
+var selected_tags = [];
+    
+/*$.fn.dataTable.ext.search.push(
     function( settings, data, dataIndex ) {
         if (selected_tag) {
             for (var i in settings.aoColumns) {
@@ -207,9 +208,28 @@ $.fn.dataTable.ext.search.push(
         }
         return true;
     }
+);*/
+$.fn.dataTable.ext.search.push(
+    function( settings, data, dataIndex ) {
+        selected_length = selected_tags.length
+        if (selected_length > 0) {
+            for (var i in settings.aoColumns) {
+                if (settings.aoColumns[i].sTitle == 'Tags') {
+                    var tags = data[settings.aoColumns[i].idx].split(" ");
+                }
+            }
+            var contains_tags = true;
+            for(var i = 0;i<selected_length;i++){
+                if(tags.indexOf(selected_tags[i]) <= -1){
+                    contains_tags = false;
+                }
+            }
+            return contains_tags;
+        }
+        return true;
+    }
 );
-
-
+   
 $(document).ready(function() {
     /* retrieve settings */
     var columnDefs = null;
@@ -303,7 +323,7 @@ $(document).ready(function() {
     });
 
     /* select tag from dropdown menu and from tag button */
-    $('body').on('click', '.tag', function () {
+    /*$('body').on('click', '.tag', function () {
         $('button.tag').removeClass("active");
         $('#tagList li').removeClass('selected');
         $('#tag-label').html('');
@@ -322,7 +342,32 @@ $(document).ready(function() {
         }
         table.draw();
         $('button.tag[value='+ selected_tag+']').addClass("active");
+    });*/
+     
+    $('body').on('click', '.tag', function () {
+        
+        $('button.tag').removeClass("active");
+        $('#tagList li').removeClass('selected');
+        $('#tag-label').html('');
+
+        var clicked_tag = $(this).attr('value');
+        var clicked_index = selected_tags.indexOf(clicked_tag);
+        
+        if (clicked_index > -1) {
+            selected_tags.splice(clicked_index,1);
+        } else {
+            selected_tags.push(clicked_tag);
+        }
+        
+        L = selected_tags.length
+        for(var i = 0; i < L; i++){
+            $('button.tag[value='+selected_tags[i]+']').addClass("active");
+            $("#tagList #id_tag_"+selected_tags[i]).addClass('selected');
+        }
+        
+        table.draw();
     });
+    
 
     {% if not read_only %}
     /* apply settings */
