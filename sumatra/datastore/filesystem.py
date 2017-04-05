@@ -94,11 +94,11 @@ class FileSystemDataStore(DataStore):
             # This can happen in Python2 if 'value' is a subclass of string
             path = Path(unicode(value))
         self._root = value
-        if not path.exists():
-            try:
-                path.mkdir(parents=True)
-            except OSError:
-                pass  # should perhaps emit warning
+        #if not path.exists():
+        #    try:
+        #        path.mkdir(parents=True)
+        #    except OSError:
+        #        pass  # should perhaps emit warning
     root = property(fget=__get_root, fset=__set_root)
 
     def _find_new_data_files(self, timestamp, ignoredirs=[".smt", ".hg", ".svn", ".git", ".bzr"]):
