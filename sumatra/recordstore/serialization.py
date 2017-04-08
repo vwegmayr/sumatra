@@ -46,9 +46,9 @@ def decode_project_list(content):
     return json.loads(content.decode("utf-8"))
 
 
-def decode_project_data(content.decode("utf-8")):
+def decode_project_data(content):
     """docstring"""
-    return json.loads(content)
+    return json.loads(content.decode("utf-8"))
 # shouldn't this be called decode_project_info, for symmetry?
 
 
