@@ -43,10 +43,10 @@ def keys2str(D):
 
 def decode_project_list(content):
     """docstring"""
-    return json.loads(content)
+    return json.loads(content.decode("utf-8"))
 
 
-def decode_project_data(content):
+def decode_project_data(content.decode("utf-8")):
     """docstring"""
     return json.loads(content)
 # shouldn't this be called decode_project_info, for symmetry?
@@ -153,9 +153,9 @@ def build_record(data):
 
 def decode_record(content):
     """Create a Sumatra record from a JSON string."""
-    return build_record(json.loads(content))
+    return build_record(json.loads(content.decode("utf-8")))
 
 
 def decode_records(content):
     """Create multiple Sumatra records from a JSON string."""
-    return [build_record(data) for data in json.loads(content)]
+    return [build_record(data) for data in json.loads(content.decode("utf-8"))]
