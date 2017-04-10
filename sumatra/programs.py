@@ -91,6 +91,7 @@ class Executable(object):
         found = []
         if sys.platform == 'win32' or sys.platform == 'win64':
             executable_name = executable_name + '.exe'
+        executable_name = os.path.basename(executable_name)
         for path in os.getenv('PATH').split(os.path.pathsep):
             if os.path.exists(os.path.join(path, executable_name)):
                 found += [path]
