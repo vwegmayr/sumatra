@@ -100,8 +100,8 @@ class Executable(object):
             executable = os.path.join(found[0], executable_name)
             if len(found) == 1:
                 print('Using %s' % executable)
-            else:
-                print('Multiple versions found, using %s. If you wish to use a different version, please specify it explicitly' % executable)
+            #else:
+            #    print('Multiple versions found, using %s. If you wish to use a different version, please specify it explicitly' % executable)
         return executable
 
     def _get_version(self):
