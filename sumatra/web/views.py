@@ -164,13 +164,13 @@ class DataDetailView(DetailView):
             "text/plain": self.handle_plain_text,
             "application/zip": self.handle_zipfile
         }
-        #if mimetype in content_dispatch:
-        #    content = datastore.to_sumatra().get_content(datakey.to_sumatra(),
-        #                                                 max_length=max_display_length)
-        #    context['truncated'] = (max_display_length is not None
-        #                            and len(content) >= max_display_length)
+        if mimetype in content_dispatch:
+            content = datastore.to_sumatra().get_content(datakey.to_sumatra(),
+                                                         max_length=max_display_length)
+            context['truncated'] = (max_display_length is not None
+                                    and len(content) >= max_display_length)
 
-        #    context = content_dispatch[mimetype](context, content)
+            context = content_dispatch[mimetype](context, content)
         return context
 
     def handle_csv(self, context, content):
