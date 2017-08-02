@@ -175,7 +175,7 @@ class DataDetailView(DetailView):
 
     def handle_csv(self, context, content):
         import csv
-        content = content.rpartition('\n')[0]
+        content = content.rpartition(b'\n')[0].decode("utf-8")
         lines = content.splitlines()
         context['reader'] = csv.reader(lines)
         return context
